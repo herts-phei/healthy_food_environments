@@ -15,7 +15,9 @@ tab_overview_mod <- function(id, label = "overview") {
       leaflet::leafletOutput(ns("map_healthy"), width = "100%", height = 640),
       fluidRow(column(width = 6, align = "left", imageOutput(ns("legend"), height = 85)))),
     box(title = "Table", width = 6,
-      align = "left",
+      downloadButton(ns("exp_table"), "Export table", class = "butt"),
+      tags$head(tags$style(".butt{background:#FFFFFF !important; border-color:#FFFFFF; -webkit-box-shadow: 0px; box-shadow: 0px;color: #0b27b4; 
+      font-size: 13px;}")),
       reactableOutput(ns("table_overview"))),
     box(title = "Indicator guidance", width = 12, collapsed = TRUE, htmlOutput(ns("data_guide"))))
   )
@@ -100,7 +102,7 @@ tab_overview_server <- function(id, overview_data) {
 
       output$legend <- renderImage({
 
-        list(src = "www/map_legend.png", height = "100%", width = "100%", contentType = 'image/png')
+        list(src = "www/map_legend.png", height = "100%", width = "120%", contentType = 'image/png')
 
       }, deleteFile = FALSE)
 
@@ -206,6 +208,22 @@ tab_overview_server <- function(id, overview_data) {
             )
           )
       })
+      
+      output$exp_table <- downloadHandler(
+        
+        filename = "data.csv",
+        content = function(con){
+          
+          data <- rv_over$filtered_table %>%
+            dplyr::select("Area" = AreaName, "Herts IMD deprivation quintile (1 most deprived)" = Herts_quintile,
+                          "Year 6: Prevalence of overweight and obesity" =`Prevalence_overweight_and_obesity_Year_6`,
+                          "Reception: Prevalence of overweight and obesity" = Prevalence_overweight_and_obesity_Reception,
+                          "Year 6: Prevalence of obesity" = `Prevalence_obesity_Year_6`,"Reception: Prevalence of obesity" =Prevalence_obesity_Reception, 
+                          "Fast food rate per 1000 population" =fast_food_rate, "No. indicators sig worse than comparator/ IMD herts quintile 1"= agg)
+            write.csv(data, con)
+        }
+        
+      )
 
       output$map_healthy <- leaflet::renderLeaflet({
 
