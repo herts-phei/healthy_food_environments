@@ -68,35 +68,33 @@ tab_overview_server <- function(id, overview_data) {
       })
 
       output$data_guide <- shiny::renderText({
-        paste0("<B>No. indicators sig worse than comparator/ IMD herts quintile 1:</B> This column shows the number of indicators for each ward
+        paste0("<B>Data updated:</B> 26/05/2023<br><br>",
+               
+               "<B>Wards:</B> The map uses 2021 ward names and bourndaries.<br><br>",
+               
+               "<B>No. indicators sig worse than comparator/ IMD herts quintile 1:</B> This column shows the number of indicators for each ward
                which were significantly higher than the comparator and/or if the ward is in IMD quintile 1.
                This column is the basis for the shading in the adjacent map.<br><br>",
-
-
-          "<B>Herts IMD deprivation quintile:</B> The Index of Multiple Deprivation (IMD) 2019 is an overall measure of
+               
+               "<B>Herts IMD deprivation quintile:</B> The Index of Multiple Deprivation (IMD) 2019 is an overall measure of
                relative deprivation. Hertfordshire is relatively less deprived than England so local deprivation quintiles
                have been used to highlight differences locally. Hertfordshire Wards have been ranked form most deprived to
                least deprived and then divided into quintiles. Quintile 1 is the most deprived quintile and quintile 5
                the least deprived.<br><br>",
-
-          "<B>Prevalence of overweight and obesity in year 6 and reception:</B> These indicators shows the percentage of pupils
-        who were classified as overweight or obese, it combines 3 years of data (2019/20-2021/22). Values highlighted
-        in red are significantly higher than the comparator and those highlighted in green are significantly
-        lower than the comparator. Values with numerators of less than 7 have been suppressed (*) and all numerators and
-        denominators have been rounded to the nearest 5.<br><br>",
-
-          "<B>Prevalence of obesity in year 6 and reception:</B> These indicators shows the percentage of pupils who were classified
-        as obese, it combines 3 years of data (2019/20-2021/22). Values highlighted in red are significantly higher than
-        the comparator and those highlighted in green are significantly lower than the comparator. Values with
-        numerators of less than 7 have been suppressed (*) and all numerators and denominators have been rounded to the
-        nearest 5.<br><br>",
+               
+               "<B>Prevalence of overweight and obesity in year 6 and reception:</B> These indicators shows the percentage of pupils
+                who were classified as overweight or obese, it combines 3 years of data (2019/20-2021/22). Values highlighted in red 
+                have a significantly higher prevalence than the comparator and those highlighted in green have a significantly lower prevalence than the comparator. 
+                Values with numerators of less than 7 have been suppressed (*) and all numerators and 
+               denominators have been rounded to the nearest 5.<br><br>",
 
           '<B>Fast food rate per 1000 population:</B> This indicator is the rate of fast food establishments per 1000 population.
-        Fast food establishments include all establishments with the business type "Takeaway/sandwich". Additionally,
-        establishments with specific business types were their name included any of "burger", "chicken", "chip",
-        "fish bar", "pizza", "kebab", "india", "china" or "chinese" or if they were a major fast food outlet have also been included. Values highlighted
-        in red have a significantly higher rate than the comparator and those highlighted in green have a significantly lower
-        rate than the comparator.<br><br>')
+           Fast food establishments include all establishments with the business type "Takeaway/sandwich". Additionally, 
+           establishments with specific business types were their name included any of "burger", "chicken", "chip", 
+           "fish bar", "pizza", "kebab", "india", "china" or "chinese" or if they were a major fast food outlet have also been included. This is consistent with the methodology
+           used in the 2017 Public Health England analysis "Fast food outlets: density by local authority in England". Values highlighted 
+           in red have a significantly higher rate than the comparator and those highlighted in green have a significantly lower 
+          rate than the comparator.<br><br>')
       })
 
 
@@ -153,34 +151,34 @@ tab_overview_server <- function(id, overview_data) {
                   htmltools::div(style = list(fontSize = 12), value)
                 }
               }, html = TRUE, name = "Reception: Prevalence of overweight and obesity"),
-              `Prevalence_obesity_Year_6` = colDef(cell = function(value, index) {
-                colour <- rv_over$filtered_table$Diff_year_6_obesity[index]
-                if (colour == "significantly higher than") {
-                  htmltools::div(style = list(fontSize = 12, color = "#e00000", fontWeight = "bold"), value)
-                }
-                else if (colour == "significantly lower than") {
-                  htmltools::div(style = list(fontSize = 12, color = "green", fontWeight = "bold"), value)
-                }
-                else if (colour == "NA value") {
-                  na = "*"
-                } else {
-                  htmltools::div(style = list(fontSize = 12), value)
-                }
-              }, html = TRUE, name = "Year 6: Prevalence of obesity"),
-              `Prevalence_obesity_Reception` = colDef(cell = function(value, index) {
-                colour <- rv_over$filtered_table$Diff_Reception_obesity[index]
-                if (colour == "significantly higher than") {
-                  htmltools::div(style = list(fontSize = 12, color = "#e00000", fontWeight = "bold"), value)
-                }
-                else if (colour == "significantly lower than") {
-                  htmltools::div(style = list(fontSize = 12, color = "green", fontWeight = "bold"), value)
-                }
-                else if (colour == "NA value") {
-                  na = "*"
-                } else {
-                  htmltools::div(style = list(fontSize = 12), value)
-                }
-              }, html = TRUE, name = "Reception: Prevalence of obesity"),
+              # `Prevalence_obesity_Year_6` = colDef(cell = function(value, index) {
+              #   colour <- rv_over$filtered_table$Diff_year_6_obesity[index]
+              #   if (colour == "significantly higher than") {
+              #     htmltools::div(style = list(fontSize = 12, color = "#e00000", fontWeight = "bold"), value)
+              #   }
+              #   else if (colour == "significantly lower than") {
+              #     htmltools::div(style = list(fontSize = 12, color = "green", fontWeight = "bold"), value)
+              #   }
+              #   else if (colour == "NA value") {
+              #     na = "*"
+              #   } else {
+              #     htmltools::div(style = list(fontSize = 12), value)
+              #   }
+              # }, html = TRUE, name = "Year 6: Prevalence of obesity"),
+              # `Prevalence_obesity_Reception` = colDef(cell = function(value, index) {
+              #   colour <- rv_over$filtered_table$Diff_Reception_obesity[index]
+              #   if (colour == "significantly higher than") {
+              #     htmltools::div(style = list(fontSize = 12, color = "#e00000", fontWeight = "bold"), value)
+              #   }
+              #   else if (colour == "significantly lower than") {
+              #     htmltools::div(style = list(fontSize = 12, color = "green", fontWeight = "bold"), value)
+              #   }
+              #   else if (colour == "NA value") {
+              #     na = "*"
+              #   } else {
+              #     htmltools::div(style = list(fontSize = 12), value)
+              #   }
+              # }, html = TRUE, name = "Reception: Prevalence of obesity"),
               fast_food_rate = colDef(cell = function(value, index) {
                 colour <- rv_over$filtered_table$fast_food_diff[index]
                 if (colour == "significantly higher than") {
@@ -204,7 +202,10 @@ tab_overview_server <- function(id, overview_data) {
               fast_food_diff = colDef(show = FALSE),
               colour = colDef(show = FALSE),
               agg = colDef(name = "No. indicators sig worse than comparator/ IMD herts quintile 1"),
-              label_text = colDef(show = FALSE)
+              label_text = colDef(show = FALSE),
+              Prevalence_obesity_Year_6 = colDef(show = FALSE),
+              Prevalence_obesity_Reception = colDef(show = FALSE)
+              
             )
           )
       })
@@ -218,8 +219,7 @@ tab_overview_server <- function(id, overview_data) {
             dplyr::select("Area" = AreaName, "Herts IMD deprivation quintile (1 most deprived)" = Herts_quintile,
                           "Year 6: Prevalence of overweight and obesity" =`Prevalence_overweight_and_obesity_Year_6`,
                           "Reception: Prevalence of overweight and obesity" = Prevalence_overweight_and_obesity_Reception,
-                          "Year 6: Prevalence of obesity" = `Prevalence_obesity_Year_6`,"Reception: Prevalence of obesity" =Prevalence_obesity_Reception, 
-                          "Fast food rate per 1000 population" =fast_food_rate, "No. indicators sig worse than comparator/ IMD herts quintile 1"= agg)
+                          "Fast food rate per 1000 population" =fast_food_rate, "No. indicators sig worse than comparator/ IMD herts quintile 1"= agg, "District" = district_name)
             write.csv(data, con)
         }
         

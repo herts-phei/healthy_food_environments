@@ -36,7 +36,8 @@ filtered_table_data <- function(data, area, comparator) {
       IndicatorName == "Herts_quintile" & value == "1" ~ 1,
       TRUE ~ 0)) %>%
     dplyr::select(IndicatorName, AreaName, district_name, value, diff, agg) %>%
-    filter(!is.na(AreaName)) %>% # fast food
+    dplyr::filter(!is.na(AreaName)) %>% # fast food
+    dplyr::filter(IndicatorName != "Index of Multiple Deprivation (IMD) Score") %>%
     tidyr::pivot_wider(names_from = IndicatorName, values_from = c(value, diff, agg)) %>%
     dplyr::rename("Prevalence_overweight_and_obesity_Year_6" = `value_Year 6: Prevalence of overweight (including obesity), 3-years data combined`,
       "Prevalence_overweight_and_obesity_Reception" = `value_Reception: Prevalence of overweight (including obesity), 3-years data combined`,
@@ -52,23 +53,19 @@ filtered_table_data <- function(data, area, comparator) {
     dplyr::mutate(fast_food_diff = ifelse(is.na(fast_food_diff), "NA value", fast_food_diff), # TODO diff in why this is NA no value vs supressed show differently as in should show as 0 pre 1000
       `agg_Fast food rate per 1000` = ifelse(is.na(`agg_Fast food rate per 1000`), 0, `agg_Fast food rate per 1000`),
       agg_Herts_quintile = ifelse(is.na(agg_Herts_quintile), 0, agg_Herts_quintile),
-      agg = `agg_Year 6: Prevalence of obesity (including severe obesity), 3-years data combined` +
+      agg = 
         `agg_Fast food rate per 1000` + agg_Herts_quintile +
-        `agg_Reception: Prevalence of obesity (including severe obesity), 3-years data combined` +
         `agg_Reception: Prevalence of overweight (including obesity), 3-years data combined` +
         `agg_Year 6: Prevalence of overweight (including obesity), 3-years data combined`,
-      agg2 = `agg_Year 6: Prevalence of obesity (including severe obesity), 3-years data combined` +
-        `agg_Fast food rate per 1000` +
-        `agg_Reception: Prevalence of obesity (including severe obesity), 3-years data combined` +
+      agg2 = `agg_Fast food rate per 1000` +
         `agg_Reception: Prevalence of overweight (including obesity), 3-years data combined` +
         `agg_Year 6: Prevalence of overweight (including obesity), 3-years data combined`,
-      colour = case_when(agg < 1 ~ "#133959",
-        agg < 2 ~ "#206095",
-        agg < 3 ~ "#8FAFCA",
-        agg < 4 ~ "#FFE2C5",
-        agg < 5 ~ "#FEB266",
-        agg < 6 ~ "#FE781F",
-        agg >= 6 ~ "#D0021B",
+      colour = case_when(
+        agg < 1 ~ "#206095",
+        agg < 2 ~ "#8FAFCA",
+        agg < 3 ~ '#FFC9A5',
+        agg < 4 ~ "#FE781F",
+        agg >= 4 ~ "#D0021B",
         TRUE ~ "grey"),
       agg = ifelse(AreaName == "Hertfordshire", "-", agg),
       label_text_temp = case_when(Herts_quintile == 1 ~ "Area is in the most deprived quintile. ",
@@ -76,8 +73,6 @@ filtered_table_data <- function(data, area, comparator) {
       label_text = case_when(agg2 == 1 ~ "1 indicator significantly worse than comparator.",
         agg2 == 2 ~ "2 indicators significantly worse than comparator.",
         agg2 == 3 ~ "3 indicators significantly worse than comparator.",
-        agg2 == 4 ~ "4 indicators significantly worse than comparator.",
-        agg2 == 5 ~ "5 indicators significantly worse than comparator.",
         TRUE ~ ""),
       label_text = ifelse(agg == 0, "No indicators significantly worse than comparator", paste0(label_text_temp, label_text))) %>%
     dplyr::select(-agg2, -label_text_temp, -diff_Herts_quintile, -`agg_Year 6: Prevalence of obesity (including severe obesity), 3-years data combined`,

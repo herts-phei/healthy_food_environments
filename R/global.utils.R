@@ -68,8 +68,8 @@ get_data <- function() {
         rank >= 73 & rank < 109 ~ 3,
         rank >= 109 & rank < 145 ~ 4,
         rank >= 145 ~ 5)) %>%
-    dplyr::select(-Label, -rank, -`Index of Multiple Deprivation (IMD) Score`) %>%
-    tidyr::pivot_longer(cols = Herts_quintile, values_to = "Value", names_to = "IndicatorName") %>%
+    dplyr::select(-Label, -rank) %>%#, -`Index of Multiple Deprivation (IMD) Score`) %>%
+    tidyr::pivot_longer(cols = c(Herts_quintile,`Index of Multiple Deprivation (IMD) Score`), values_to = "Value", names_to = "IndicatorName") %>%
     select(AreaName = ward_name, AreaCode = ward_code, Value, IndicatorName, district_name)
 
   # fingertips --------------------------------------------------------------
