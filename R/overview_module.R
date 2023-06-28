@@ -19,7 +19,7 @@ tab_overview_mod <- function(id, label = "overview") {
       tags$head(tags$style(".butt{background:#FFFFFF !important; border-color:#FFFFFF; -webkit-box-shadow: 0px; box-shadow: 0px;color: #0b27b4; 
       font-size: 13px;}")),
       reactableOutput(ns("table_overview"))),
-    box(title = "Indicator guidance", width = 12, collapsed = TRUE, htmlOutput(ns("data_guide"))))
+    box(title = "Guidance", width = 12, collapsed = TRUE, htmlOutput(ns("data_guide"))))
   )
 
 }
@@ -68,9 +68,21 @@ tab_overview_server <- function(id, overview_data) {
       })
 
       output$data_guide <- shiny::renderText({
-        paste0("<B>Data updated:</B> 26/05/2023<br><br>",
+        paste0("<u>Guidance:</u><br><br>",
+               
+               "<B>Data updated:</B> 26/05/2023<br><br>",
                
                "<B>Wards:</B> The map uses 2021 ward names and bourndaries.<br><br>",
+               
+               "<B>Confidence Intervals and significance:</B> Confidence intervals (CIs) show the range of uncertainty (caused by sample size and random variation) 
+               around a value and can be used to determine statistical significance. If the CIs around a value don't overlap with the CIs around another, 
+               then we can be certain that there is a statistically significant difference between the values. If the CIs around a value overlap with the 
+               interval around another, we cannot say with certainty that there is more than a chance difference between the two values. In the above table 
+               95% CIs are used to determine if there is a significant difference between an areas value and the comparator areas value for prevalence of overweight and obesity 
+               in year 6, prevalence of overweight and obesity in reception and fast food rate per 1000 population. Values which are significantly worse than the comparators value are highlighted in red, values 
+               which are significantly better than the comparators value are highlighted in green and values with no significant difference are black.<br><br>",
+               
+               "<u>Indicator details:</u><br><br>",
                
                "<B>No. indicators sig worse than comparator/ IMD herts quintile 1:</B> This column shows the number of indicators for each ward
                which were significantly higher than the comparator and/or if the ward is in IMD quintile 1.
@@ -83,8 +95,7 @@ tab_overview_server <- function(id, overview_data) {
                the least deprived.<br><br>",
                
                "<B>Prevalence of overweight and obesity in year 6 and reception:</B> These indicators shows the percentage of pupils
-                who were classified as overweight or obese, it combines 3 years of data (2019/20-2021/22). Values highlighted in red 
-                have a significantly higher prevalence than the comparator and those highlighted in green have a significantly lower prevalence than the comparator. 
+                who were classified as overweight or obese, it combines 3 years of data (2019/20-2021/22). 
                 Values with numerators of less than 7 have been suppressed (*) and all numerators and 
                denominators have been rounded to the nearest 5.<br><br>",
 
@@ -92,9 +103,7 @@ tab_overview_server <- function(id, overview_data) {
            Fast food establishments include all establishments with the business type "Takeaway/sandwich". Additionally, 
            establishments with specific business types were their name included any of "burger", "chicken", "chip", 
            "fish bar", "pizza", "kebab", "india", "china" or "chinese" or if they were a major fast food outlet have also been included. This is consistent with the methodology
-           used in the 2017 Public Health England analysis "Fast food outlets: density by local authority in England". Values highlighted 
-           in red have a significantly higher rate than the comparator and those highlighted in green have a significantly lower 
-          rate than the comparator.<br><br>')
+           used in the 2017 Public Health England analysis "Fast food outlets: density by local authority in England".<br><br>')
       })
 
 
@@ -243,7 +252,7 @@ tab_overview_server <- function(id, overview_data) {
 
         map_health_df %>%
           leaflet::leaflet(options = leaflet::leafletOptions(preferCanvas = TRUE, minZoom = 7, maxZoom = 20, zoomControl = FALSE)) %>%
-          addProviderTiles(providers$Esri.WorldTopoMap) %>%
+          addProviderTiles(providers$CartoDB.Positron) %>%
           leaflet::addPolygons(data = shp_hert, weight = 2, opacity = 0.8, fillOpacity = 0, smoothFactor = 2, color = "grey") %>%
           leaflet::addPolygons(data = map_health_df, layerId = map_health_df$ward_name, label = paste(map_health_df$ward_name, "|", map_health_df$label_text), weight = 2, opacity = 0.8, fillOpacity = 0.8, color = map_health_df$colour, smoothFactor = 2) %>%
           leaflet.extras::addFullscreenControl(position = "topright") %>%

@@ -54,7 +54,7 @@ leaflet_map <- function(data_full, data_sch, data_food, domain) {
   
   map <- data_full %>%
     leaflet::leaflet(options = leaflet::leafletOptions(preferCanvas = TRUE, minZoom = 7, maxZoom = 18)) %>%
-    addProviderTiles(providers$Esri.WorldTopoMap) %>%
+    addProviderTiles(providers$CartoDB.Positron) %>%
     leaflet::addPolygons(data = shp_ltla, label = ~lad20nm, weight = 2, opacity = 0.8, fillOpacity = 0, color = "grey", smoothFactor = 2, group = "LTLA") %>%
     leaflet::setView(lng = -0.237700, lat = 51.809800, zoom = 9.5) %>%
     leaflet::addLegend(position = "topright", values = ~type, pal = pal_settings, title = "Setting Types") %>%

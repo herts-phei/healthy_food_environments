@@ -61,7 +61,7 @@ tab_correlation_server <- function(id, correlation_data) {
         g <- ggplot(rv_correlation$graph, aes(x = get(ind_name1), y =  get(ind_name2))) +
           geom_point(aes(text = AreaName),color = "#8FAFCA") +
           #geom_smooth(method = 'lm') +
-          ggpmisc::stat_fit_glance(method = 'lm', geom = 'text', aes(label = paste0('p = ', round(..p.value.., 5), ', R<sup>2</sup> = ', round(..r.squared.., 3))), label.y = "top") +
+          ggpmisc::stat_fit_glance(method = 'lm', geom = 'text', aes(label = paste0( 'R<sup>2</sup> = ', round(..r.squared.., 3))), label.y = "top") +
           theme_classic() +
           xlab(ind_name1) +
           ylab(ind_name2)
@@ -90,11 +90,9 @@ tab_correlation_server <- function(id, correlation_data) {
       output$correlation_guide <- shiny::renderText({
         paste0("<u>Guidance:</u><br><br>",
                
-               "<B>Indicators:</B> For details on individual indicators please see the indicator guidance section in the overview tab.<br><br>",
+               "<B>Indicators:</B> For details on individual indicators please see the guidance section in the overview tab.<br><br>",
                
                "<B>Correlation:</B> Correlation expresses the extent that two variables are linearly related.<br><br>",
-               
-               "<B>p value:</B> A p value measures how likely the results found occurred due to chance. A p value of less than 0.05 is thought to be significant.<br><br>",
                
                "<B>R<sup>2</sup>:</B> The R-squared value measures the strength of correlation, it is always between 0 and 1. An R-squared value of 0.7 or higher demonstrates
                the variables have a strong correlation where as an R-squared of 0.4 or below demonstrates a very little or no correlation.<br><br>",
