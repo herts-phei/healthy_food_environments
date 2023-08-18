@@ -53,18 +53,18 @@ tab_overview_server <- function(id, overview_data) {
       param <- get_params()
       pcd <- param$pcd
       ward <- param$ward
-
+      
       updateSelectizeInput(session, "Postcode",
-        choices = list(
-          All = "All",
-          District = list(
-            "Broxbourne", "Dacorum",
-            "East Hertfordshire", "Hertsmere", "North Hertfordshire", "Stevenage",
-            "St Albans", "Watford", "Welwyn Hatfield", "Three Rivers"
-          ),
-          Ward = ward, Postcode = pcd
-        ),
-        selected = "All", server = TRUE
+                           choices = list(
+                             All = "All",
+                             District = list(
+                               "Broxbourne", "Dacorum",
+                               "East Hertfordshire", "Hertsmere", "North Hertfordshire", "Stevenage",
+                               "St Albans", "Watford", "Welwyn Hatfield", "Three Rivers"
+                             ),
+                             Ward = ward, Postcode = pcd
+                           ),
+                           selected = "All", server = TRUE
       )
 
       observe({

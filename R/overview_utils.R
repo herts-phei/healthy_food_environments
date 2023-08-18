@@ -1,5 +1,4 @@
 #
-# comparator ="Hertfordshire"
 filtered_table_data <- function(data, area, comparator) {
   df <- data$table
 

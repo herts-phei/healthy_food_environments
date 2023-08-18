@@ -1,12 +1,7 @@
 get_params <- function() {
   param <- list()
 
-  pcd_lookup <- readxl::read_excel("data/public/pcd_lookup.xlsx")
-
-  pcd_ward <- pcd_lookup %>%
-    dplyr::filter(county == "Hertfordshire") %>%
-    dplyr::select(postcode, ward_code, ward_name)
-
+  pcd_ward <- readRDS("data/public/ward_lookup.rds")
   param$pcd <- pcd_ward %>%
     dplyr::pull(postcode)
 
@@ -23,22 +18,33 @@ get_data <- function() {
 
   ward_imd_lh <- readxl::read_excel("data/public/ward_imd.xlsx", skip = 3) # from local health needs updating from there
 
-  food_settings <- readxl::read_excel("data/public/food_settings.xlsx")
+  food_settings <- readRDS("data/public/food_settings.rds")
 
   food_dist <- read.csv("data/public/AHAH_V3_0.csv") # from consumer data research needs updating from there
 
-  fingertips_data <- readxl::read_excel("data/public/fingertips_data.xlsx")
+  fingertips_data <- readRDS("data/public/fingertips_data.rds")
 
-  pcd_lookup <- readxl::read_excel("data/public/pcd_lookup.xlsx")
+  pcd_lookup <- readRDS("data/public/pcd_lookup.rds")
 
-  pop <- readxl::read_excel("data/public/pop.xlsx")
+  pop <- readRDS("data/public/pop.rds")
 
-  pop_ward <- readxl::read_excel("data/public/pop_ward.xlsx")
+  pop_ward <- readRDS("data/public/pop_ward.rds")
 
-  lsoa_pop <- readxl::read_excel("data/public/pop_lsoa.xlsx")
+  lsoa_pop <- readRDS("data/public/pop_lsoa.rds")
 
-  schools <- readxl::read_excel("data/public/schools.xlsx")
+  schools <- readRDS("data/public/schools.rds")
 
+  pcd_ward_param <- pcd_lookup %>%
+    dplyr::filter(county == "Hertfordshire") %>%
+    dplyr::select(postcode, ward_code, ward_name)
+  
+  data$pcd_param <- pcd_ward_param %>%
+    dplyr::pull(postcode)
+  
+  data$ward_param <- pcd_ward_param %>%
+    dplyr::distinct(ward_name) %>%
+    dplyr::pull(ward_name)
+  
 
   data$pcd_ward <- pcd_lookup %>%
     dplyr::filter(county == "Hertfordshire") %>%
