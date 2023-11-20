@@ -4,8 +4,8 @@ graph_data <- function(data, indicator1, indicator2) {
   df <- df %>%
     dplyr::mutate(
       Value = round(Value, 2),
-      IndicatorName = ifelse(IndicatorName == "Year 6: Prevalence of obesity (including severe obesity), 3-years data combined", "Year 6: Prevalence of overweight & obesity",
-        ifelse(IndicatorName == "Reception: Prevalence of overweight (including obesity), 3-years data combined", "Reception: Prevalence of overweight & obesity",
+      IndicatorName = ifelse(IndicatorName == "Year 6 prevalence of obesity (including severe obesity), 3 years data combined", "Year 6: Prevalence of overweight & obesity",
+        ifelse(IndicatorName == "Reception prevalence of obesity (including severe obesity), 3 years data combined", "Reception: Prevalence of overweight & obesity",
           IndicatorName
         )
       )
@@ -27,8 +27,8 @@ get_ind_name <- function(data, indicator) {
   df <- data$table
 
   ind <- df %>%
-    dplyr::mutate(IndicatorName = ifelse(IndicatorName == "Year 6: Prevalence of obesity (including severe obesity), 3-years data combined", "Year 6: Prevalence of overweight & obesity",
-      ifelse(IndicatorName == "Reception: Prevalence of overweight (including obesity), 3-years data combined", "Reception: Prevalence of overweight & obesity",
+    dplyr::mutate(IndicatorName = ifelse(IndicatorName == "Year 6 prevalence of obesity (including severe obesity), 3 years data combined", "Year 6: Prevalence of overweight & obesity",
+      ifelse(IndicatorName == "Reception prevalence of obesity (including severe obesity), 3 years data combined", "Reception: Prevalence of overweight & obesity",
         IndicatorName
       )
     )) %>%

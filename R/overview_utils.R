@@ -1,4 +1,4 @@
-#
+#comparator <- "Hertfordshire"
 filtered_table_data <- function(data, area, comparator) {
   df <- data$table
 
@@ -23,6 +23,7 @@ filtered_table_data <- function(data, area, comparator) {
       dplyr::rename(comp_area = AreaName.y, AreaName = AreaName.x, district_name = district_name.x)
   }
 
+
   df <- df %>%
     dplyr::mutate(
       diff = dplyr::case_when(
@@ -44,14 +45,14 @@ filtered_table_data <- function(data, area, comparator) {
     dplyr::filter(IndicatorName != "Index of Multiple Deprivation (IMD) Score") %>%
     tidyr::pivot_wider(names_from = IndicatorName, values_from = c(value, diff, agg)) %>%
     dplyr::rename(
-      "Prevalence_overweight_and_obesity_Year_6" = `value_Year 6: Prevalence of overweight (including obesity), 3-years data combined`,
-      "Prevalence_overweight_and_obesity_Reception" = `value_Reception: Prevalence of overweight (including obesity), 3-years data combined`,
-      "Diff_year_6" = `diff_Year 6: Prevalence of overweight (including obesity), 3-years data combined`,
-      "Diff_Reception" = `diff_Reception: Prevalence of overweight (including obesity), 3-years data combined`,
-      "Prevalence_obesity_Year_6" = `value_Year 6: Prevalence of obesity (including severe obesity), 3-years data combined`,
-      "Prevalence_obesity_Reception" = `value_Reception: Prevalence of obesity (including severe obesity), 3-years data combined`,
-      "Diff_year_6_obesity" = `diff_Year 6: Prevalence of obesity (including severe obesity), 3-years data combined`,
-      "Diff_Reception_obesity" = `diff_Reception: Prevalence of obesity (including severe obesity), 3-years data combined`,
+      "Prevalence_overweight_and_obesity_Year_6" = `value_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
+      "Prevalence_overweight_and_obesity_Reception" = `value_Reception prevalence of overweight (including obesity), 3 years data combined`,
+      "Diff_year_6" = `diff_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
+      "Diff_Reception" = `diff_Reception prevalence of overweight (including obesity), 3 years data combined`,
+      "Prevalence_obesity_Year_6" = `value_Year 6 prevalence of obesity (including severe obesity), 3 years data combined`,
+      "Prevalence_obesity_Reception" = `value_Reception prevalence of obesity (including severe obesity), 3 years data combined`,
+      "Diff_year_6_obesity" =`diff_Year 6 prevalence of obesity (including severe obesity), 3 years data combined`,
+      "Diff_Reception_obesity" = `diff_Reception prevalence of obesity (including severe obesity), 3 years data combined`,
       "Herts_quintile" = value_Herts_quintile,
       "fast_food_rate" = `value_Fast food rate per 1000`,
       "fast_food_diff" = `diff_Fast food rate per 1000`,
@@ -66,11 +67,11 @@ filtered_table_data <- function(data, area, comparator) {
       agg_Fast_food_dist_quintile = ifelse(is.na(agg_Fast_food_dist_quintile), 0, agg_Fast_food_dist_quintile),
       agg =
         `agg_Fast food rate per 1000` + agg_Herts_quintile + agg_Fast_food_dist_quintile +
-          `agg_Reception: Prevalence of overweight (including obesity), 3-years data combined` +
-          `agg_Year 6: Prevalence of overweight (including obesity), 3-years data combined`,
+        `agg_Reception prevalence of overweight (including obesity), 3 years data combined` +
+        `agg_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
       agg2 = `agg_Fast food rate per 1000` + agg_Fast_food_dist_quintile +
-        `agg_Reception: Prevalence of overweight (including obesity), 3-years data combined` +
-        `agg_Year 6: Prevalence of overweight (including obesity), 3-years data combined`,
+        `agg_Reception prevalence of overweight (including obesity), 3 years data combined` +
+        `agg_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
       colour = case_when(
         agg < 1 ~ "#133959",
         agg < 2 ~ "#206095",
@@ -106,11 +107,11 @@ filtered_table_data <- function(data, area, comparator) {
       )
     ) %>%
     dplyr::select(
-      -agg2, -label_text_temp, -diff_Herts_quintile, -`agg_Year 6: Prevalence of obesity (including severe obesity), 3-years data combined`,
+      -agg2, -label_text_temp, -diff_Herts_quintile, -`agg_Year 6 prevalence of obesity (including severe obesity), 3 years data combined`,
       -`agg_Fast food rate per 1000`, -agg_Herts_quintile,
-      -`agg_Reception: Prevalence of obesity (including severe obesity), 3-years data combined`,
-      -`agg_Reception: Prevalence of overweight (including obesity), 3-years data combined`,
-      -`agg_Year 6: Prevalence of overweight (including obesity), 3-years data combined`, -label_text2,
+      -`agg_Reception prevalence of obesity (including severe obesity), 3 years data combined`,
+      -`agg_Reception prevalence of overweight (including obesity), 3 years data combined`,
+      -`agg_Year 6 prevalence of overweight (including obesity), 3 years data combined`, -label_text2,
       -`agg_Average distance (min) to fast food`, -agg_Fast_food_dist_quintile, -dist_fast_food_diff, -diff_Fast_food_dist_quintile
     ) %>%
     dplyr::select(AreaName, Herts_quintile, everything())
