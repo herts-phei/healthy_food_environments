@@ -16,8 +16,8 @@ get_params <- function() {
 get_data <- function() {
   data <- list()
 
-  ward_imd_lh <- readxl::read_excel("data/public/ward_imd.xlsx", skip = 3) # from local health needs updating from there
-
+  ward_imd_lh <- readRDS("data/public/ward_imd_lh.rds")
+  
   food_settings <- readRDS("data/public/food_settings.rds")
 
   food_dist <- read.csv("data/public/AHAH_V3_0.csv") # from consumer data research needs updating from there

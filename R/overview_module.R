@@ -273,7 +273,8 @@ tab_overview_server <- function(id, overview_data) {
           leaflet::leaflet(options = leaflet::leafletOptions(preferCanvas = TRUE, minZoom = 7, maxZoom = 20, zoomControl = FALSE)) %>%
           addProviderTiles(providers$CartoDB.Positron) %>%
           leaflet::addPolygons(data = shp_hert, weight = 2, opacity = 0.8, fillOpacity = 0, smoothFactor = 2, color = "black") %>%
-          leaflet::addPolygons(data = map_health_df, layerId = map_health_df$ward_name, label = paste(map_health_df$ward_name, "|", map_health_df$label_text), weight = 2, opacity = 0.8, fillOpacity = 0.8, color = map_health_df$colour, smoothFactor = 2) %>%
+          leaflet::addPolygons(data = map_health_df, layerId = map_health_df$ward_name, label = paste(map_health_df$ward_name, "|", map_health_df$label_text),
+                               weight = 2, opacity = 0.8, fillOpacity = 0.8, fillColor = map_health_df$colour, color = "#565656", smoothFactor = 2) %>%
           leaflet::addPolylines(data = shp_dist, weight = 2, opacity = 0.8, fillOpacity = 0, smoothFactor = 2, color = "black") %>%
           leaflet.extras::addFullscreenControl(position = "topright") %>%
           htmlwidgets::onRender(
