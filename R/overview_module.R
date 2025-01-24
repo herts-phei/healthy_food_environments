@@ -11,7 +11,7 @@ tab_overview_mod <- function(id, label = "overview") {
         fluidRow(width = 12, htmlOutput(ns("background"))),
         fluidRow(
           column(width = 6, align = "left", selectizeInput(ns("Postcode"),
-            label = "Select area/s", choices = NULL, multiple = TRUE, selected = NULL,
+            label = "Select area/s", choices = NULL, multiple = TRUE, selected = "All",
             options = list(maxOptions = 11)
           )),
           column(width = 6, align = "left", selectInput(ns("Comparison"), label = "Select comparator", choices = c("Hertfordshire", "District"), selected = "Hertfordshire"))
@@ -89,7 +89,7 @@ tab_overview_server <- function(id, overview_data) {
 
       output$data_guide <- shiny::renderText({
         paste0(
-          "<B>Data updated:</B> 20/11/2023<br><br>",
+          "<B>Data updated:</B> 24/01/2025<br><br>",
           
           "<B>Wards:</B> The map uses 2021 ward names and boundaries.<br><br>",
           
@@ -100,7 +100,7 @@ tab_overview_server <- function(id, overview_data) {
           the least deprived.<br><br>",
           
           "<B>Prevalence of overweight and obesity in year 6 and reception:</B> These indicators shows the percentage of pupils 
-          who were classified as overweight or obese, it combines 3 years of data (2020/21-2022/23). Values highlighted in red 
+          who were classified as overweight or obese, it combines 3 years of data (2021/22-2023/24). Values highlighted in red 
           have a significantly higher prevalence than the comparator and those highlighted in green have a significantly lower prevalence than the comparator. 
           Values based on a numerator that is 7 or less have been suppressed (*) and all numerators and 
           denominators have been rounded to the nearest 5. Trends in year 6 and reception overweight and obesity over time can be found on fingertips 
