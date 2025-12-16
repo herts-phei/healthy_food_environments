@@ -1,15 +1,9 @@
 graph_data <- function(data, indicator1, indicator2) {
+  
   df <- data$table
 
   df <- df %>%
-    dplyr::mutate(
-      Value = round(Value, 2),
-      IndicatorName = ifelse(IndicatorName == "Year 6 prevalence of obesity (including severe obesity), 3 years data combined", "Year 6: Prevalence of overweight & obesity",
-        ifelse(IndicatorName == "Reception prevalence of obesity (including severe obesity), 3 years data combined", "Reception: Prevalence of overweight & obesity",
-          IndicatorName
-        )
-      )
-    ) %>%
+    dplyr::mutate(Value = round(Value, 2)) %>%
     dplyr::filter(IndicatorName %in% c(indicator1, indicator2)) %>%
     dplyr::select(IndicatorName, AreaName, Value) %>%
     dplyr::filter(!is.na(AreaName), !AreaName %in% c(
@@ -21,20 +15,18 @@ graph_data <- function(data, indicator1, indicator2) {
     na.omit()
 
   return(df)
+  
 }
 
 get_ind_name <- function(data, indicator) {
+  
   df <- data$table
 
   ind <- df %>%
-    dplyr::mutate(IndicatorName = ifelse(IndicatorName == "Year 6 prevalence of obesity (including severe obesity), 3 years data combined", "Year 6: Prevalence of overweight & obesity",
-      ifelse(IndicatorName == "Reception prevalence of obesity (including severe obesity), 3 years data combined", "Reception: Prevalence of overweight & obesity",
-        IndicatorName
-      )
-    )) %>%
     dplyr::filter(IndicatorName %in% c(indicator)) %>%
     dplyr::distinct(IndicatorName) %>%
     dplyr::pull(IndicatorName)
 
   return(ind)
+  
 }

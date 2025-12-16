@@ -36,7 +36,7 @@ school_map_params <- function(data) {
 }
 
 leaflet_map <- function(data_full, data_sch, data_food, domain) {
-  shp_ltla <- geojsonsf::geojson_sf("data/public/ltla_cut.geojson")
+  shp_ltla <- geojsonsf::geojson_sf("data/public/shp_dist.geojson")
 
   # Generate colour palettes - one for schools, one for fast food
 
@@ -50,7 +50,7 @@ leaflet_map <- function(data_full, data_sch, data_food, domain) {
   map <- data_full %>%
     leaflet::leaflet(options = leaflet::leafletOptions(preferCanvas = TRUE, minZoom = 7, maxZoom = 18)) %>%
     addProviderTiles(providers$CartoDB.Positron) %>%
-    leaflet::addPolygons(data = shp_ltla, label = ~lad20nm, weight = 2, opacity = 0.8, fillOpacity = 0, color = "#4C4E52", smoothFactor = 2, group = "LTLA") %>%
+    leaflet::addPolygons(data = shp_ltla, label = ~district_name, weight = 2, opacity = 0.8, fillOpacity = 0, color = "#4C4E52", smoothFactor = 2, group = "LTLA") %>%
     leaflet::setView(lng = -0.237700, lat = 51.809800, zoom = 9.5) %>%
     leaflet::addLegend(position = "topright", values = ~type, pal = pal_settings, title = "Setting Types") %>%
     leaflet.extras::addFullscreenControl(position = "topleft") %>%

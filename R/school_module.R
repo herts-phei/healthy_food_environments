@@ -74,15 +74,15 @@ tab_schools_server <- function(id, school_data) {
 
       output$school_guide <- shiny::renderText({
         paste0(
-          "<B>First:</B>  - A school with years reception to 4 (ages 5 to 9).<br>",
-          "<B>Infant</B> - A school with years reception to 2 (ages 5 to 7).<br>",
-          "<B>Junior</B> - A school with years 3 to 6 (ages 8 to 11).<br>",
-          "<B>Middle</B> - A school with years 5 to 8 (ages 9 to 13).<br>",
+          "<B>First:</B>  - A school with Years reception to Year 4 (ages 4 to 9).<br>",
+          "<B>Infant</B> - A school with Years reception to Year 2 (ages 4 to 7).<br>",
+          "<B>Junior</B> - A school with Years 3 to 6 (ages 8 to 11).<br>",
+          "<B>Middle</B> - A school with Years 5 to 8 (ages 9 to 13).<br>",
           "<B>Nursery</B> - A school for young children, usually from three to five years old.<br>",
-          "<B>Primary</B> - A school starting at reception to year 6 (ages 5 to 11).<br>",
+          "<B>Primary</B> - A school starting at Reception to Year 6 (ages 5 to 11).<br>",
           "<B>Pupil Referral Unit</B> - For children who aren't able to attend school, reasons for this include,
-                they have a short or long term illness or have been excluded from mainstream school.<br>",
-          "<B>Secondary</B> - A school with years 7 to 13 (ages 12 to 18).<br>",
+                being excluded from mainstream school, or needs which cannot be met in mainstream provision.<br>",
+          "<B>Secondary</B> - A school with Years 7 to 13 (ages 11 to 18).<br>",
           "<B>Special</B> - For children with significant special educational needs.<br>",
           "<B>University Technical College</B> - Specialise in subjects like engineering and construction and teach these subjects along with business skills
                and using IT. Pupils study academic subjects as well as practical subjects leading to technical qualifications. The curriculum is designed

@@ -1,6 +1,7 @@
 # UI ----------------------------------------------------------------------
 
 tab_correlation_mod <- function(id, label = "correlation") {
+  
   ns <- NS(id)
 
   tabItem(
@@ -11,8 +12,8 @@ tab_correlation_mod <- function(id, label = "correlation") {
         htmlOutput(ns("text_correlation")),
         selectInput(ns("indicator1"),
           label = "Select x-axis (horizontal) variable", choices = c(
-            "Reception: Prevalence of overweight & obesity",
-            "Year 6: Prevalence of overweight & obesity",
+            "Reception: Prevalence of overweight and obesity",
+            "Year 6: Prevalence of overweight and obesity",
             "Index of Multiple Deprivation (IMD) Score",
             "Fast food rate per 1000", "Average distance (min) to fast food"
           ),
@@ -20,12 +21,12 @@ tab_correlation_mod <- function(id, label = "correlation") {
         ),
         selectInput(ns("indicator2"),
           label = "Select y-axis (vertical) variable", choices = c(
-            "Reception: Prevalence of overweight & obesity",
-            "Year 6: Prevalence of overweight & obesity",
+            "Reception: Prevalence of overweight and obesity",
+            "Year 6: Prevalence of overweight and obesity",
             "Index of Multiple Deprivation (IMD) Score",
             "Fast food rate per 1000", "Average distance (min) to fast food"
           ),
-          multiple = FALSE, selected = "Year 6: Prevalence of overweight & obesity)"
+          multiple = FALSE, selected = "Year 6: Prevalence of overweight and obesity)"
         )
       ),
       box(
@@ -35,16 +36,18 @@ tab_correlation_mod <- function(id, label = "correlation") {
       )
     ),
     box(
-      title = "Guidance and caveates", width = 12,
+      title = "Guidance and caveats", width = 12,
       htmlOutput(ns("correlation_guide"))
     )
   )
+  
 }
 
 
 # Server ------------------------------------------------------------------
 
 tab_correlation_server <- function(id, correlation_data) {
+  
   moduleServer(
     id,
     function(input, output, session) {
@@ -84,7 +87,7 @@ tab_correlation_server <- function(id, correlation_data) {
       })
 
       output$text_correlation <- shiny::renderText({
-        paste0("This tab shows the relationship (correlation) between indicators (variables). Each point refers to a ward. Please see below guidance and caveats which need to be
+        paste0("This tab shows the relationship (correlation) between indicators (variables). Each point refers to an MSOA Please see below guidance and caveats which need to be
                considered when interpreting these graphs.<br><br>")
       })
 
@@ -119,4 +122,5 @@ tab_correlation_server <- function(id, correlation_data) {
       })
     }
   )
+  
 }

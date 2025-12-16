@@ -1,0 +1,12 @@
+name: healthy_food_environments
+title: healthy_food_environments
+username: hcc-phei
+account: hcc-phei
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9144976
+bundleId: 11330891
+url: https://hcc-phei.shinyapps.io/healthy_food_environments/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

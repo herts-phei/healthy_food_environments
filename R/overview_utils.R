@@ -1,11 +1,12 @@
-#comparator <- "Hertfordshire"
+# comparator <- "Hertfordshire"
+# area = "All"
 filtered_table_data <- function(data, area, comparator) {
   df <- data$table
 
   if (comparator == "District") {
     comparator_area <- c(
-      "Broxbourne", "Dacorum", "East Hertfordshire", "Hertsmere", "North Hertfordshire", "Stevenage",
-      "St Albans", "Watford", "Welwyn Hatfield", "Three Rivers"
+      "Broxbourne", "Dacorum", "East Hertfordshire", "Hertsmere", "North Hertfordshire",
+      "St Albans", "Stevenage", "Three Rivers", "Watford", "Welwyn Hatfield"
     )
 
     comp_df <- df %>%
@@ -22,7 +23,6 @@ filtered_table_data <- function(data, area, comparator) {
       dplyr::left_join(comp_df, by = c("IndicatorName" = "IndicatorName")) %>%
       dplyr::rename(comp_area = AreaName.y, AreaName = AreaName.x, district_name = district_name.x)
   }
-
 
   df <- df %>%
     dplyr::mutate(
@@ -45,14 +45,14 @@ filtered_table_data <- function(data, area, comparator) {
     dplyr::filter(IndicatorName != "Index of Multiple Deprivation (IMD) Score") %>%
     tidyr::pivot_wider(names_from = IndicatorName, values_from = c(value, diff, agg)) %>%
     dplyr::rename(
-      "Prevalence_overweight_and_obesity_Year_6" = `value_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
-      "Prevalence_overweight_and_obesity_Reception" = `value_Reception prevalence of overweight (including obesity), 3 years data combined`,
-      "Diff_year_6" = `diff_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
-      "Diff_Reception" = `diff_Reception prevalence of overweight (including obesity), 3 years data combined`,
-      "Prevalence_obesity_Year_6" = `value_Year 6 prevalence of obesity (including severe obesity), 3 years data combined`,
-      "Prevalence_obesity_Reception" = `value_Reception prevalence of obesity (including severe obesity), 3 years data combined`,
-      "Diff_year_6_obesity" =`diff_Year 6 prevalence of obesity (including severe obesity), 3 years data combined`,
-      "Diff_Reception_obesity" = `diff_Reception prevalence of obesity (including severe obesity), 3 years data combined`,
+      "Prevalence_overweight_and_obesity_Reception" = `value_Reception: Prevalence of overweight and obesity`,
+      "Prevalence_overweight_and_obesity_Year_6" = `value_Year 6: Prevalence of overweight and obesity`,
+      "Diff_Reception" = `diff_Reception: Prevalence of overweight and obesity`,
+      "Diff_year_6" = `diff_Year 6: Prevalence of overweight and obesity`,
+      # "Prevalence_obesity_Year_6" = `value_Year 6: Prevalence of overweight and obesity`,
+      # "Prevalence_obesity_Reception" = `value_Reception: Prevalence of overweight and obesity`,
+      # "Diff_year_6_obesity" =`diff_Year 6: Prevalence of overweight and obesity`,
+      # "Diff_Reception_obesity" = `diff_Reception: Prevalence of overweight and obesity`,
       "Herts_quintile" = value_Herts_quintile,
       "fast_food_rate" = `value_Fast food rate per 1000`,
       "fast_food_diff" = `diff_Fast food rate per 1000`,
@@ -61,17 +61,20 @@ filtered_table_data <- function(data, area, comparator) {
       "dist_fast_food_quintile" = value_Fast_food_dist_quintile
     ) %>%
     dplyr::mutate(
-      fast_food_diff = ifelse(is.na(fast_food_diff), "NA value", fast_food_diff), # TODO diff in why this is NA no value vs supressed show differently as in should show as 0 pre 1000
+      fast_food_diff = ifelse(is.na(fast_food_diff), "NA value", fast_food_diff), # TODO diff in why this is NA no value vs suppressed show differently as in should show as 0 pre 1000
       `agg_Fast food rate per 1000` = ifelse(is.na(`agg_Fast food rate per 1000`), 0, `agg_Fast food rate per 1000`),
       agg_Herts_quintile = ifelse(is.na(agg_Herts_quintile), 0, agg_Herts_quintile),
       agg_Fast_food_dist_quintile = ifelse(is.na(agg_Fast_food_dist_quintile), 0, agg_Fast_food_dist_quintile),
       agg =
-        `agg_Fast food rate per 1000` + agg_Herts_quintile + agg_Fast_food_dist_quintile +
-        `agg_Reception prevalence of overweight (including obesity), 3 years data combined` +
-        `agg_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
-      agg2 = `agg_Fast food rate per 1000` + agg_Fast_food_dist_quintile +
-        `agg_Reception prevalence of overweight (including obesity), 3 years data combined` +
-        `agg_Year 6 prevalence of overweight (including obesity), 3 years data combined`,
+        `agg_Fast food rate per 1000` +
+          agg_Herts_quintile +
+          agg_Fast_food_dist_quintile +
+          `agg_Reception: Prevalence of overweight and obesity` +
+          `agg_Year 6: Prevalence of overweight and obesity`,
+      agg2 = `agg_Fast food rate per 1000` +
+        agg_Fast_food_dist_quintile +
+        `agg_Reception: Prevalence of overweight and obesity` +
+        `agg_Year 6: Prevalence of overweight and obesity`,
       colour = case_when(
         agg < 1 ~ "#133959",
         agg < 2 ~ "#206095",
@@ -107,14 +110,16 @@ filtered_table_data <- function(data, area, comparator) {
       )
     ) %>%
     dplyr::select(
-      -agg2, -label_text_temp, -diff_Herts_quintile, -`agg_Year 6 prevalence of obesity (including severe obesity), 3 years data combined`,
-      -`agg_Fast food rate per 1000`, -agg_Herts_quintile,
-      -`agg_Reception prevalence of obesity (including severe obesity), 3 years data combined`,
-      -`agg_Reception prevalence of overweight (including obesity), 3 years data combined`,
-      -`agg_Year 6 prevalence of overweight (including obesity), 3 years data combined`, -label_text2,
-      -`agg_Average distance (min) to fast food`, -agg_Fast_food_dist_quintile, -dist_fast_food_diff, -diff_Fast_food_dist_quintile
+      -agg2, -label_text_temp, -label_text2, , -diff_Herts_quintile, -agg_Herts_quintile,
+      -`agg_Year 6: Prevalence of overweight and obesity`,
+      -`agg_Reception: Prevalence of overweight and obesity`,
+      -`agg_Fast food rate per 1000`,
+      -`agg_Average distance (min) to fast food`,
+      -agg_Fast_food_dist_quintile,
+      -dist_fast_food_diff,
+      -diff_Fast_food_dist_quintile
     ) %>%
-    dplyr::select(AreaName, Herts_quintile, everything())
+    dplyr::select(AreaName, Herts_quintile, Prevalence_overweight_and_obesity_Reception, everything())
 
   if (comparator == "District") {
     df <- df %>%
@@ -124,28 +129,28 @@ filtered_table_data <- function(data, area, comparator) {
   if ("All" %in% area) {
     df <- df
   } else {
-    lookup <- data$pcd_ward %>%
+    lookup <- data$pcd_msoa %>%
       dplyr::filter(`postcode` %in% area)
 
-    lookup_ward <- data$pcd_ward %>%
-      dplyr::select(ward_name, district_name) %>%
+    lookup_msoa <- data$pcd_msoa %>%
+      dplyr::select(MSOA_name, district_name) %>%
       dplyr::distinct() %>%
-      dplyr::filter(ward_name %in% area)
+      dplyr::filter(MSOA_name %in% area)
 
     if (nrow(lookup) != 0) {
       df_pcd <- df %>%
-        dplyr::filter(AreaName %in% lookup$ward_name | AreaName %in% lookup$district_name | AreaName %in% lookup$county)
+        dplyr::filter(AreaName %in% lookup$MSOA_name | AreaName %in% lookup$district_name | AreaName %in% lookup$county)
     }
 
-    df_ward_dist <- df %>%
-      dplyr::filter(AreaName %in% area | district_name %in% area | AreaName == "Hertfordshire" | AreaName %in% lookup_ward$district_name)
+    df_msoa_dist <- df %>%
+      dplyr::filter(AreaName %in% area | district_name %in% area | AreaName == "Hertfordshire" | AreaName %in% lookup_msoa$district_name)
 
     if (exists("df_pcd")) {
       df <- df_pcd %>%
-        rbind(df_ward_dist) %>%
+        rbind(df_msoa_dist) %>%
         dplyr::distinct()
     } else {
-      df <- df_ward_dist
+      df <- df_msoa_dist
     }
   }
 
@@ -153,7 +158,8 @@ filtered_table_data <- function(data, area, comparator) {
 }
 
 # data_map = df
-# indicator = "Distance to nearest fast food outlet (min) quintiles"
+# indicator = "Reception: Prevalence of overweight and obesity"
+# indicator = "Distance to nearest fast food outlet quintiles"
 filtered_map_data <- function(data_map, indicator) {
   if (indicator == "Herts IMD deprivation quintile") {
     df <- data_map %>%
@@ -165,15 +171,14 @@ filtered_map_data <- function(data_map, indicator) {
       dplyr::select(AreaName, Indicator = dist_fast_food_quintile)
   }
 
+  if (indicator == "Reception: Prevalence of overweight and obesity") {
+    df <- data_map %>%
+      dplyr::select(AreaName, Indicator = Prevalence_overweight_and_obesity_Reception, Sig = Diff_Reception)
+  }
 
   if (indicator == "Year 6: Prevalence of overweight and obesity") {
     df <- data_map %>%
       dplyr::select(AreaName, Indicator = Prevalence_overweight_and_obesity_Year_6, Sig = Diff_year_6)
-  }
-
-  if (indicator == "Reception: Prevalence of overweight and obesity") {
-    df <- data_map %>%
-      dplyr::select(AreaName, Indicator = Prevalence_overweight_and_obesity_Reception, Sig = Diff_Reception)
   }
 
   if (indicator == "Fast food rate") {
@@ -214,14 +219,31 @@ filtered_map_data <- function(data_map, indicator) {
           TRUE ~ NA
         ),
         Sig = case_when(
-          Indicator == 1 ~ "1 (lowest distance)",
+          Indicator == 1 ~ "1 (closest distance)",
           Indicator == 2 ~ "2",
           Indicator == 3 ~ "3",
           Indicator == 4 ~ "4",
-          Indicator == 5 ~ "5 (highest distance)",
+          Indicator == 5 ~ "5 (furthest distance)",
           TRUE ~ NA
         ),
         label_text = paste0(" Quintile ", Sig)
+      )
+  } else if (indicator == "Fast food rate") {
+    df <- df %>%
+      dplyr::mutate(
+        colour = case_when(
+          Sig == "significantly higher than" ~ "#e00000",
+          Sig == "statistically similar" ~ "#F6BE00",
+          Sig == "significantly lower than" ~ "green",
+          TRUE ~ "grey"
+        ),
+        Sig = case_when(
+          Sig == "significantly higher than" ~ "significantly higher than comparator",
+          Sig == "statistically similar" ~ "statistically similar to comparator",
+          Sig == "significantly lower than" ~ "significantly lower than comparator",
+          TRUE ~ "value suppressed"
+        ),
+        label_text = paste0(" Value: ", Indicator, " per 1,000 population | ", Sig)
       )
   } else {
     df <- df %>%
@@ -238,7 +260,7 @@ filtered_map_data <- function(data_map, indicator) {
           Sig == "significantly lower than" ~ "significantly lower than comparator",
           TRUE ~ "value suppressed"
         ),
-        label_text = paste0(" Value: ", Indicator, " | ", Sig)
+        label_text = paste0(" Value: ", round(Indicator, digits = 1), "% | ", Sig)
       )
   }
 }
